@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.XR;
 using XRInputDevice = UnityEngine.XR.InputDevice;
 using XRCommonUsages = UnityEngine.XR.CommonUsages;
+using System;
 
 public class ContinuousControllerInput : MonoBehaviour
 {
@@ -118,10 +119,16 @@ public class ContinuousControllerInput : MonoBehaviour
             return;
 
         // Extract roll (Z-axis rotation in Euler) and remap to [-180, +180]
-        float rawRoll = rot.eulerAngles.z;
+        float rawRoll = rot.eulerAngles.z +180f;
+        // Extract roll (Z-axis rotation in Euler) and remap to [-180, +180]
+        // float rawRoll = rot.eulerAngles.y;
+
+
+        
+
         if (rawRoll > 180f) rawRoll -= 360f;
 
-        controllerRollDeg = rawRoll;
+        controllerRollDeg = Mathf.Round(rawRoll);
 
         // Normalise: divide by fullScaleRollDeg, clamp to [-1, +1]
         // Right tilt → positive roll → +1 ("faster")
